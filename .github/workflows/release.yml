@@ -71,8 +71,7 @@ jobs:
       - name: Build and push image
         uses: docker/build-push-action@v4
         with:
-          context: ./
-          file: ./debian${{ matrix.version_branch }}/Dockerfile
+          context: ./debian${{ matrix.version_branch }}/.
           platforms: linux/amd64
           push: true
           tags: |
@@ -110,8 +109,7 @@ jobs:
       - name: Build and push image
         uses: docker/build-push-action@v3
         with:
-          context: ./
-          file: ./docker10/Dockerfile
+          context: ./debian${{ matrix.version_branch }}/.
           platforms: linux/amd64
           push: true
           tags: |
