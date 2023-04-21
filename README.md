@@ -1,5 +1,8 @@
 # docker-debian-ansible
-Debian docker container with built-in Ansible for playbook and role testing 
+Debian docker container with built-in Ansible for playbook and role testing
+
+# The main goal
+Keep all version in one repository under different tags
 
 ## Tags
 - `10`. Based on Debian 10 (Buster)
@@ -30,5 +33,3 @@ Thanks for [Jeff Geerling](https://github.com/geerlingguy)
 Based on:
 - https://github.com/geerlingguy/docker-debian10-ansible
 - https://github.com/geerlingguy/docker-debian11-ansible
-
-due to the storage of versions in tags in one repository
