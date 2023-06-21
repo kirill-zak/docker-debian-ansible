@@ -7,13 +7,14 @@ Keep all version in one repository under different tags
 ## Tags
 - `10`. Based on Debian 10 (Buster)
 - `11`. Based on Debian 11 (Bullseye)
+- `12`. Based on Debain 12 (Bookworm)
 
 ## How to Build
 
 To build the image on your own locally, do the following:
 
   1. [Install Docker](https://docs.docker.com/engine/installation/).
-  2. `cd` into target directory. For example, target directory for `Debian 11` is `debian11`
+  2. `cd` into target directory. For example, target directory for `Debian 12` is `debian12`
   3. Run `docker build -t docker-debian-ansible .`.
 
   ## How to Use
