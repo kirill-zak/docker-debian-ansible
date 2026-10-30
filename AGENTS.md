@@ -43,8 +43,9 @@ and are published under different tags to Docker Hub and GHCR.
   (outputs `versions`, `platforms`, `latest_version`) — edit it to change the
   build/test matrix; no other workflow needs editing for a version change.
 - `10` is archived — no longer built or published (see README, "Archive tags").
-- Platforms: `linux/amd64`, `linux/arm/v7`, `linux/arm64/v8`, `linux/ppc64le`,
-  `linux/s390x`.
+- Platforms are defined per version in `config.yml` (limited by the architectures
+  the `debian` base image publishes): 11 → `linux/amd64`, `linux/arm/v7`,
+  `linux/arm64/v8`; 12 → the same plus `linux/ppc64le`.
 - Release tag: `x.x` or `x.x.x`, optional `v` prefix
   (regex `^v?[0-9]{1,2}\.[0-9]{1,2}(\.[0-9]{1,2})?$`), no suffixes — enforced by
   the `validate-tag` job.
