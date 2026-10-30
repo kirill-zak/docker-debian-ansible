@@ -5,6 +5,13 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 ENV pip_packages "ansible cryptography"
 
+# Debian 11 (Bullseye) is EOL: its packages moved to archive.debian.org,
+# so point apt at the archive and skip the expired Release-file check.
+RUN echo 'deb http://archive.debian.org/debian/ bullseye main' > /etc/apt/sources.list \
+    && echo 'deb http://archive.debian.org/debian/ bullseye-updates main' >> /etc/apt/sources.list \
+    && echo 'deb http://archive.debian.org/debian-security/ bullseye-security main' >> /etc/apt/sources.list \
+    && echo 'Acquire::Check-Valid-Until "false";' > /etc/apt/apt.conf.d/99no-check-valid-until
+
 # Install dependencies.
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \

@@ -1,0 +1,27 @@
+---
+name: Build
+on: workflow_dispatch
+
+permissions:
+  contents: read
+
+jobs:
+  config:
+    uses: ./.github/workflows/config.yml
+
+  test-build:
+    name: Build ${{ matrix.version_branch }} / ${{ matrix.platform }}
+    needs: config
+    permissions:
+      contents: read
+      packages: write
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: ${{ fromJSON(needs.config.outputs.platforms) }}
+        version_branch: ${{ fromJSON(needs.config.outputs.versions) }}
+    uses: ./.github/workflows/build-image.yml
+    with:
+      version_branch: ${{ matrix.version_branch }}
+      platforms: ${{ matrix.platform }}
+      push: false
