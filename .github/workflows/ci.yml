@@ -6,26 +6,37 @@ name: CI
     branches:
       - master
 
+permissions:
+  contents: read
+
 jobs:
+  config:
+    uses: ./.github/workflows/config.yml
+
   test:
     name: Test
-    runs-on: ubuntu-latest
-
-    strategy: 
+    needs: config
+    strategy:
       fail-fast: false
-
       matrix:
-        version_branch: [10, 11, 12]
+        version_branch: ${{ fromJSON(needs.config.outputs.versions) }}
+    uses: ./.github/workflows/test-image.yml
+    with:
+      version_branch: ${{ matrix.version_branch }}
 
+  test-gate:
+    # Stable check name independent of the version matrix, so the branch
+    # protection ruleset never needs updating when versions change.
+    name: Test gate
+    needs: [config, test]
+    if: always()
+    runs-on: ubuntu-latest
     steps:
-      - name: Checkout out the codebase
-        uses: actions/checkout@v3
-
-      - name: Test building image
-        run: podman build -t docker-debian-ansible:${{ matrix.version_branch }} ./debian${{ matrix.version_branch }}/.
-      
-      - name: Run the built image
-        run: podman run --name test-container --detach --privileged --volume /sys/fs/cgroup:/sys/fs/cgroup:ro docker-debian-ansible:${{ matrix.version_branch }}
-
-      - name: Verify Ansible is accessible in the built image
-        run: podman exec --tty test-container env TERM=xterm ansible --version
+      - name: Fail if a required check did not pass
+        run: |
+          if [ "${{ needs.config.result }}" != success ] || \
+             [ "${{ needs.test.result }}" != success ]; then
+            echo "::error::config or test checks did not pass"
+            exit 1
+          fi
+          echo "All required checks passed"
