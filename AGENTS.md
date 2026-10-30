@@ -1,7 +1,7 @@
 # AGENTS.md
 
 ## About the project
-docker-debian-ansible is a Debian (11–12) image with Ansible pre-installed,
+docker-debian-ansible is a Debian 12 image with Ansible pre-installed,
 designed for testing playbooks and roles. All versions live in a single repository
 and are published under different tags to Docker Hub and GHCR.
 
@@ -15,7 +15,8 @@ and are published under different tags to Docker Hub and GHCR.
   - `release.yml` — publishing on tags: `validate-tag` → `config` → `test` → matrix
     `release` (reusable `build-image.yml`, `secrets: inherit`).
   - `config.yml` — reusable workflow, single source of constants: outputs
-    `versions` (JSON array), `platforms` (JSON array), `latest_version` (string);
+    `versions` (JSON array), `platforms` (JSON object mapping each version to its
+    platform list), `latest_version` (string);
     callers drive their matrices from `needs.config.outputs.*`.
   - `test-image.yml`, `build-image.yml` — reusable workflows with shared steps.
 - `Makefile` + `scripts/test.mk` — `make test-build` smoke test mirroring
@@ -36,16 +37,17 @@ and are published under different tags to Docker Hub and GHCR.
   `make test-build version_branch=11`).
 
 ## CI/CD conventions
-- Version matrix: `11, 12`.
+- Version matrix: `12`.
 - README lists version tags in descending order (newest first) — both in `Tags`
   and in `Archive tags`.
 - Versions, platforms, and the `latest` tag mapping live in `config.yml`
   (outputs `versions`, `platforms`, `latest_version`) — edit it to change the
   build/test matrix; no other workflow needs editing for a version change.
-- `10` is archived — no longer built or published (see README, "Archive tags").
+- `10` and `11` are archived — no longer built or published (see README,
+  "Archive tags").
 - Platforms are defined per version in `config.yml` (limited by the architectures
-  the `debian` base image publishes): 11 → `linux/amd64`, `linux/arm/v7`,
-  `linux/arm64/v8`; 12 → the same plus `linux/ppc64le`.
+  the `debian` base image publishes); currently only `12` is built, with
+  `linux/amd64`, `linux/arm/v7`, `linux/arm64/v8`, `linux/ppc64le`.
 - Release tag: `x.x` or `x.x.x`, optional `v` prefix
   (regex `^v?[0-9]{1,2}\.[0-9]{1,2}(\.[0-9]{1,2})?$`), no suffixes — enforced by
   the `validate-tag` job.

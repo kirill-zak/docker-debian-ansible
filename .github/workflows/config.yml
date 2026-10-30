@@ -28,7 +28,7 @@ jobs:
       - id: values
         run: |
           {
-            echo 'versions=["11","12"]'
-            echo 'platforms={"11":["linux/amd64","linux/arm/v7","linux/arm64/v8"],"12":["linux/amd64","linux/arm/v7","linux/arm64/v8","linux/ppc64le"]}'
+            echo 'versions=["12"]'
+            echo 'platforms={"12":["linux/amd64","linux/arm/v7","linux/arm64/v8","linux/ppc64le"]}'
             echo 'latest_version=12'
           } >> "$GITHUB_OUTPUT"

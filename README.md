@@ -6,7 +6,6 @@ Keep all version in one repository under different tags
 
 ## Tags
 - `12`. Based on Debian 12 (Bookworm)
-- `11`. Based on Debian 11 (Bullseye)
 
 ## How to Build
 
@@ -31,6 +30,7 @@ To build the image on your own locally, do the following:
 Not supported and not updated docker images.
 
 List of archive tags:
+- `11`. Based on Debian 11 (Bullseye)
 - `10`. Based on Debian 10 (Buster)
 
 ### Thanks
