@@ -5,9 +5,8 @@ Debian docker container with built-in Ansible for playbook and role testing
 Keep all version in one repository under different tags
 
 ## Tags
-- `10`. Based on Debian 10 (Buster)
+- `12`. Based on Debian 12 (Bookworm)
 - `11`. Based on Debian 11 (Bullseye)
-- `12`. Based on Debain 12 (Bookworm)
 
 ## How to Build
 
@@ -26,6 +25,13 @@ To build the image on your own locally, do the following:
 ## Author
 
 [Kirill Ziuzin](https://kirill-zak.ru/)
+
+## Archive tags
+
+Not supported and not updated docker images.
+
+List of archive tags:
+- `10`. Based on Debian 10 (Buster)
 
 ### Thanks
 Thanks for [Jeff Geerling](https://github.com/geerlingguy)
