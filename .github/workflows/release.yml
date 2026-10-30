@@ -54,7 +54,7 @@ jobs:
     uses: ./.github/workflows/build-image.yml
     with:
       version_branch: ${{ matrix.version_branch }}
-      platforms: ${{ join(fromJSON(needs.config.outputs.platforms), ',') }}
+      platforms: ${{ join(fromJSON(needs.config.outputs.platforms)[matrix.version_branch], ',') }}
       additional_tags: ${{ matrix.version_branch == needs.config.outputs.latest_version && 'latest' || '' }}
       push: true
     secrets: inherit

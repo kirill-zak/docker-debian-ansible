@@ -9,17 +9,30 @@ jobs:
   config:
     uses: ./.github/workflows/config.yml
 
+  prepare:
+    name: Prepare build matrix
+    needs: config
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set.outputs.matrix }}
+    steps:
+      - name: Build per-version platform matrix
+        id: set
+        run: |
+          platforms='${{ needs.config.outputs.platforms }}'
+          include=$(printf '%s' "$platforms" | jq -c '[to_entries[] | .key as $v | .value[] | {version_branch: $v, platform: .}]')
+          echo "matrix=$include" >> "$GITHUB_OUTPUT"
+
   test-build:
     name: Build ${{ matrix.version_branch }} / ${{ matrix.platform }}
-    needs: config
+    needs: prepare
     permissions:
       contents: read
       packages: write
     strategy:
       fail-fast: false
       matrix:
-        platform: ${{ fromJSON(needs.config.outputs.platforms) }}
-        version_branch: ${{ fromJSON(needs.config.outputs.versions) }}
+        include: ${{ fromJSON(needs.prepare.outputs.matrix) }}
     uses: ./.github/workflows/build-image.yml
     with:
       version_branch: ${{ matrix.version_branch }}
