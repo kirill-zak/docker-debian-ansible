@@ -5,6 +5,7 @@ Debian docker container with built-in Ansible for playbook and role testing
 Keep all version in one repository under different tags
 
 ## Tags
+- `13`. Based on Debian 13 (Trixie)
 - `12`. Based on Debian 12 (Bookworm)
 
 ## How to Build
