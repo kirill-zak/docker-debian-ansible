@@ -1,7 +1,7 @@
 # AGENTS.md
 
 ## About the project
-docker-debian-ansible is a Debian 12 image with Ansible pre-installed,
+docker-debian-ansible is a Debian (12–13) image with Ansible pre-installed,
 designed for testing playbooks and roles. All versions live in a single repository
 and are published under different tags to Docker Hub and GHCR.
 
@@ -37,7 +37,7 @@ and are published under different tags to Docker Hub and GHCR.
   `make test-build version_branch=11`).
 
 ## CI/CD conventions
-- Version matrix: `12`.
+- Version matrix: `12, 13`.
 - README lists version tags in descending order (newest first) — both in `Tags`
   and in `Archive tags`.
 - Versions, platforms, and the `latest` tag mapping live in `config.yml`
@@ -46,8 +46,14 @@ and are published under different tags to Docker Hub and GHCR.
 - `10` and `11` are archived — no longer built or published (see README,
   "Archive tags").
 - Platforms are defined per version in `config.yml` (limited by the architectures
-  the `debian` base image publishes); currently only `12` is built, with
-  `linux/amd64`, `linux/arm/v7`, `linux/arm64/v8`, `linux/ppc64le`.
+  the `debian` base image publishes and by what we can build for): 12 →
+  `linux/amd64`, `linux/arm/v7`, `linux/arm64/v8`, `linux/ppc64le`; 13 → every
+  architecture published by `debian:trixie` except `linux/arm/v5` (armel):
+  `linux/amd64`, `linux/arm/v7`, `linux/arm64/v8`, `linux/386`,
+  `linux/ppc64le`, `linux/riscv64`, `linux/s390x`. `arm/v5` is dropped because
+  `cryptography` has no wheel there, and neither Debian trixie (`rustc 1.85`)
+  nor rustup (no armel host support) provides a Rust new enough to build
+  `maturin >= 1.14` (MSRV 1.89) from source.
 - Release tag: `x.x` or `x.x.x`, optional `v` prefix
   (regex `^v?[0-9]{1,2}\.[0-9]{1,2}(\.[0-9]{1,2})?$`), no suffixes — enforced by
   the `validate-tag` job.
