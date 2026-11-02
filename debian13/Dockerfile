@@ -5,21 +5,22 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 ENV pip_packages "ansible cryptography"
 
-# Install dependencies.
+# Install dependencies. rustc/cargo + pkg-config are only needed to build the
+# cryptography wheel from source on architectures without a prebuilt one
+# (linux/386, linux/arm/v5, linux/riscv64, linux/s390x); they are purged after
+# the build to keep the image lean.
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
        sudo systemd systemd-sysv \
        build-essential wget libffi-dev libssl-dev procps \
        python3-pip python3-dev python3-setuptools python3-wheel python3-apt \
        iproute2 \
+       pkg-config rustc cargo \
+    && pip install $pip_packages --break-system-packages \
+    && apt-get purge -y --auto-remove rustc cargo pkg-config \
     && rm -rf /var/lib/apt/lists/* \
     && rm -Rf /usr/share/doc && rm -Rf /usr/share/man \
     && apt-get clean
-
-# Debian 13 ships pip 25.x which is recent enough, and upgrading it fails
-# (the Debian-packaged pip has no RECORD file), so skip the upgrade step.
-# Install Ansible via pip.
-RUN pip install $pip_packages --break-system-packages
 
 COPY initctl_faker .
 RUN chmod +x initctl_faker && rm -fr /sbin/initctl && ln -s /initctl_faker /sbin/initctl
