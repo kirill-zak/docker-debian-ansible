@@ -46,11 +46,14 @@ and are published under different tags to Docker Hub and GHCR.
 - `10` and `11` are archived — no longer built or published (see README,
   "Archive tags").
 - Platforms are defined per version in `config.yml` (limited by the architectures
-  the `debian` base image publishes): 12 → `linux/amd64`, `linux/arm/v7`,
-  `linux/arm64/v8`, `linux/ppc64le`; 13 → every architecture published by
-  `debian:trixie`: `linux/amd64`, `linux/arm/v5`, `linux/arm/v7`,
-  `linux/arm64/v8`, `linux/386`, `linux/ppc64le`, `linux/riscv64`,
-  `linux/s390x`.
+  the `debian` base image publishes and by what we can build for): 12 →
+  `linux/amd64`, `linux/arm/v7`, `linux/arm64/v8`, `linux/ppc64le`; 13 → every
+  architecture published by `debian:trixie` except `linux/arm/v5` (armel):
+  `linux/amd64`, `linux/arm/v7`, `linux/arm64/v8`, `linux/386`,
+  `linux/ppc64le`, `linux/riscv64`, `linux/s390x`. `arm/v5` is dropped because
+  `cryptography` has no wheel there, and neither Debian trixie (`rustc 1.85`)
+  nor rustup (no armel host support) provides a Rust new enough to build
+  `maturin >= 1.14` (MSRV 1.89) from source.
 - Release tag: `x.x` or `x.x.x`, optional `v` prefix
   (regex `^v?[0-9]{1,2}\.[0-9]{1,2}(\.[0-9]{1,2})?$`), no suffixes — enforced by
   the `validate-tag` job.

@@ -29,6 +29,6 @@ jobs:
         run: |
           {
             echo 'versions=["12","13"]'
-            echo 'platforms={"12":["linux/amd64","linux/arm/v7","linux/arm64/v8","linux/ppc64le"],"13":["linux/amd64","linux/arm/v5","linux/arm/v7","linux/arm64/v8","linux/386","linux/ppc64le","linux/riscv64","linux/s390x"]}'
+            echo 'platforms={"12":["linux/amd64","linux/arm/v7","linux/arm64/v8","linux/ppc64le"],"13":["linux/amd64","linux/arm/v7","linux/arm64/v8","linux/386","linux/ppc64le","linux/riscv64","linux/s390x"]}'
             echo 'latest_version=13'
           } >> "$GITHUB_OUTPUT"

@@ -7,8 +7,8 @@ ENV pip_packages "ansible cryptography"
 
 # Install dependencies. rustc/cargo + pkg-config are only needed to build the
 # cryptography wheel from source on architectures without a prebuilt one
-# (linux/386, linux/arm/v5, linux/riscv64, linux/s390x); they are purged after
-# the build to keep the image lean.
+# (linux/386, linux/riscv64, linux/s390x); they are purged after the build to
+# keep the image lean.
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
        sudo systemd systemd-sysv \
